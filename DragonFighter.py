@@ -1,9 +1,9 @@
-import pygame, sys, time
+import pygame, sys, time, random
 from pygame.locals import *
 pygame.init()
 EntrySpeed = 5
 #Move/second
-DragonSpeed = 2.0
+DragonSpeed = 1.0
 canvas = pygame.display.set_mode((1360, 660))
 pygame.display.set_caption("Dragon Fighter")
 Home = pygame.image.load("HomePage.png")
@@ -47,7 +47,7 @@ def GamePage():
 		canvas.blit(img, NinjaRect)
 		canvas.blit(Back, (0, 0))
 		if abs(NinjaO - DragonO) == 2:
-			if NinjaDist <= 100:
+			if NinjaDist <= 125:
 				print ("You Lose")
 				canvas.blit(YouLose, (380, 255))
 				pygame.display.update()
@@ -65,31 +65,7 @@ def GamePage():
 					pygame.display.update()
 		if time.time() - DragonTimer >= 1.0/DragonSpeed:
 			DragonTimer = time.time()
-			if NinjaO == DragonO:
-				DragonO += 1 if DragonO != 4 else -3
-			elif abs(NinjaO - DragonO) == 2:
-				if NinjaDist <= 100:
-					print ("You Lose")
-					canvas.blit(YouLose, (380, 255))
-					pygame.display.update()
-					while True:
-						if leavepage:
-							break
-						for event in pygame.event.get():
-							if event.type == QUIT:
-								pygame.quit()
-								sys.exit()
-							if event.type == MOUSEBUTTONDOWN:
-								pos = pygame.mouse.get_pos()
-								if pygame.Rect(0, 0, 200, 100).collidepoint(pos):
-									leavepage = True
-						pygame.display.update()
-			else:
-				if NinjaO == (DragonO + (1 if DragonO != 4 else -3)):
-					print ("Annoying +")
-					DragonO -= 1 if DragonO != 1 else -3
-				else:
-					DragonO += 1 if DragonO != 4 else -3
+			DragonO += 1 if DragonO != 4 else -3
 		clear = False
 		for event in pygame.event.get():
 			if event.type == QUIT:
